@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class HotelCategory extends Model
 {
-    protected $guarded=[];
+   // protected $guarded=[];
+   protected $fillable = ['name'];
 }

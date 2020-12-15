@@ -19,6 +19,7 @@ class CreateHotelsTable extends Migration
             $table->unsignedBigInteger('category_id')->unsigned();
             $table->string('slug')->unique();
             $table->string('name');
+            $table->string('city');
             $table->text('address');
             $table->text('phone');
             $table->text('email');

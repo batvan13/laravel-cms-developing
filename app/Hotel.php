@@ -3,13 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 
 class Hotel extends Model
 {
     // Mass assigned
-    protected $fillable=['user_id','title'];
+    protected $fillable=['user_id','category_id','slug','name','city','address','phone','email','web_adr'];
 
+     // Mutators
+     public function setSlugAttribute($value) {
+        $this->attributes['slug'] = Str::slug( mb_substr($this->name, 0, 40) . "-" . \Carbon\Carbon::now()->format('dmyHi'), '-');
+      }
 
     public function user()
     {

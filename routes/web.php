@@ -23,4 +23,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('hotels', 'UserAdmin\HotelsController');
+});
+
+Route::get('/design', function () {
+    return view('design');
+});
+
 
