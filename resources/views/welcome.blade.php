@@ -1,100 +1,85 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <title>Laravel</title>
+@section('content')
+<div class="container">
+    <div class="row justify-content-center ">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
+        <div class="col-md-8">
 
-            .full-height {
-                height: 100vh;
-            }
+            @foreach ($hotels as $hotel)
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+            <div class="result-item">
+                <div class="thumb">
+                    <?php $image = App\HotelImage::where('hotel_id',$hotel->id)->first() ?>
+                    <a href="/images/{{ object_get($image,"image") }}" title="{{$hotel->name_bg}}">
+                        <i class="pi-24 vip"></i>
+                          <img src="{{asset('images')}}/{{ object_get($image,"image") }}" class="" alt="{{$hotel->name_bg}}" title="{{$hotel->name_bg}}">
+                    </a>
+                </div>
+                <div class="info">
+                    <div class="left-side">
 
-            .position-ref {
-                position: relative;
-            }
+                        <div class="header">
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+                                <div class="title"><a href="#" title="{{$hotel->name_bg}}">{{$hotel->name_bg}}</a></div>
+                                    <div class="rating">
+                                      <span class="star"></span>
 
-            .content {
-                text-align: center;
-            }
+                                    </div>
+                                </div>
+                                <div class="content xl">
+                                    {{$hotel->description}}   ...
+                                </div>
+                                </div>
+                    <div class="right-side">
+                      <ul>
+                        <li class="price">
+                            <img src="{{ asset('icons/price_icon.jpg') }}" class="icon" alt="" title="">
+                                 {{$hotel->start_price}} лв.
+                        </li>
 
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                        <li class="phone">
+                            <img src="{{ asset('icons/phone_icon.jpg') }}" class="icon" alt="" title="">
+                              <a href="{{$hotel->phone}}">{{$hotel->phone}}</a>
+                        </li>
+                        <li class="email">
+                            <a href="#" >
+                                <img src="{{ asset('icons/email_icon.jpg') }}" class="icon" alt="" title="">
+                                запитване</a>
+                        </li>
+                        @if ( Auth::user())
+                        <li class="btn">
+                            <a href="#" class="btn btn-info btn-sm btn-block">view</a>
+                        </li>
+                        <li class="btn">
+                            <a href="{{ route('hotels.edit',$hotel->id)}}" class="btn btn-warning btn-sm btn-block">edit</a>
+                        </li>
+                        <li class="btn">
+                            <form action="{{ route('hotels.destroy', $hotel->id)}}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-sm btn-block" type="submit">delete</button>
+                              </form>
+                        </li>
                         @endif
-                    @endauth
-                </div>
-            @endif
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
+
+                      </ul>
+
+                    </div>
                 </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
             </div>
+
+            @endforeach
+            {{ $hotels->links() }}
         </div>
-    </body>
-</html>
+
+    </div>
+</div>
+@endsection
+
+
+
+

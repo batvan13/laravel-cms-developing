@@ -3,27 +3,23 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+
 
 
 class Hotel extends Model
 {
     // Mass assigned
-    protected $fillable=['user_id','category_id','slug','name','city','address','phone','email','web_adr'];
-
-     // Mutators
-     public function setSlugAttribute($value) {
-        $this->attributes['slug'] = Str::slug( mb_substr($this->name, 0, 40) . "-" . \Carbon\Carbon::now()->format('dmyHi'), '-');
-      }
+    protected $fillable=['user_id','category_id','slug','name_bg','name_en','town_id',
+    'address_bg','address_en','phone','email','web_adr','stars','start_price','price_long','description'];
 
     public function user()
     {
     	return $this->belongsTo('App\User');
     }
 
-    public function pictures()
+    public function images()
     {
-        return $this->hasMany('App\HotelPicture', 'hotel_id', 'id');
+        return $this->hasMany('App\HotelImage', 'hotel_id', 'id');
     }
 
     public function extra()

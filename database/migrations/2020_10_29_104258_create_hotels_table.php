@@ -18,12 +18,18 @@ class CreateHotelsTable extends Migration
             $table->unsignedBigInteger('user_id')->unsigned();
             $table->unsignedBigInteger('category_id')->unsigned();
             $table->string('slug')->unique();
-            $table->string('name');
-            $table->string('city');
-            $table->text('address');
-            $table->text('phone');
-            $table->text('email');
-            $table->text('web_adr');
+            $table->string('name_bg');
+            $table->string('name_en');
+            $table->unsignedBigInteger('town_id')->unsigned();
+            $table->string('address_bg')->nullable();
+            $table->string('address_en')->nullable();
+            $table->string('phone');
+            $table->string('email')->nullable();
+            $table->text('web_adr')->nullable();
+            $table->integer('stars');
+            $table->integer('start_price');
+            $table->text('price_long')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

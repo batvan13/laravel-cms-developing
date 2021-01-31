@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use App\Hotel;
+use App\HotelImage;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -23,7 +27,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+
+        $hotels = auth()->user()->hotels()->latest()->paginate(10);
+
+
+        return view('home',compact('hotels'));
     }
 
     /**
